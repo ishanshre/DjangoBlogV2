@@ -1,0 +1,22 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Update Post{% endblock title %}
+
+
+{% block body %}
+
+<main class="form-signin w-75 m-auto text-center p-5">
+    <div class="container mt-2">
+        <h1>Delete This Post</h1>
+        <form method="post" style="display: block;">
+            {% csrf_token %}
+            
+            <input type="submit" value="Delete" class="btn btn-primary text-white">
+        </form><br>
+            <center><a href="{{ objects.get_absolute_url }}" type="button" role="button" class="btn btn-success text-white">Go Back</a></center>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+{% endblock body %}

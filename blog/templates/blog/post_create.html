@@ -1,0 +1,42 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Add New Post{% endblock title %}
+
+
+{% block body %}
+
+<main class="form-signin w-90 m-auto text-center p-5">
+    <div class="container mt-2">
+        <h1>Add New Post</h1>
+        <form method="post" style="display: block;">
+            {% csrf_token %}
+            
+            <div class="container">
+                <div class="row">
+                  <div class="col">
+                    {{ form.title|as_crispy_field }}
+                  </div>
+                  <div class="col">
+                    {{ form.slug|as_crispy_field }}
+                  </div>
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-8">
+                        {{ form.body|as_crispy_field }}
+                      </div>
+                      <div class="col-3">
+                        {{ form.status|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <input type="submit" value="Add" class="btn btn-primary text-white">
+        </form><br>
+            <center><a href="{% url 'blog:index' %}" type="button" role="button" class="btn btn-success text-white">Go Back</a></center>
+            </div>
+        </div>
+        </div>
+    </div>
+</main>
+{% endblock body %}

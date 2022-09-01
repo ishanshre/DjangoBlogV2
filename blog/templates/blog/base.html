@@ -10,15 +10,16 @@
     <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <title>{% block title %}{% endblock title %}</title>
   </head>
-  <body class="bg-dark text-white">
+  <body class="bg-dark text-white d-flex flex-column min-vh-100">
     
     {% include 'blog/navbar.html' %}
     {% include 'blog/messages.html' %}
 
-    <div class="container mt-2 cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <div class="container cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
         {% block body %}
         {% endblock body %}
     </div>
+  
 
     <!-- Optional JavaScript; choose one of the two! -->
 

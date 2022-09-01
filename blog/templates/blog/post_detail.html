@@ -1,11 +1,45 @@
 {% extends 'blog/base.html' %}
-
-{% block title %}Home{% endblock title %}
+{% load crispy_forms_tags %}
+{% block title %}{{ posts.title|title }}{% endblock title %}
 
 
 {% block body %}
 
 <div class="container mt-2">
-    {{ posts.title|title }}
+    <article>
+        <h1>{{ posts.title|title }}</h1>
+        <p class="text-muted">By {{ posts.author }}</p>
+        <p class="text-muted">Last Updated: {{ posts.updated }}</p>
+        <hr><br>
+        <p>{{ posts.body }}</p>
+    </article>
+
+    {% if user.is_authenticated %}
+    {% if posts.author == user %}
+        <center>
+            <a href="{% url 'blog:post_update' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Update</a>
+    <a href="{% url 'blog:post_delete' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Delete</a>
+        </center>
+    {% endif %}
+    {% endif %}
+
+    {% if posts.comment_set.all %}
+    <div class="container">
+        <h3>Comments</h3>
+        {% for comment in posts.comment_set.all %}
+        <p> {{ comment }}</p>
+        <p class="text-muted">by {{ comment.author|title }}</p>
+        <hr>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="container w-75">
+        <h3>Add Comments</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Add Comments" class="btn btn-outline-success">
+        </form>
+    </div>
 </div>
 {% endblock body %}
