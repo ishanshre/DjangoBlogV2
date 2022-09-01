@@ -5,16 +5,39 @@
 
 {% block body %}
 
-<div class="container mt-2">
-    <h1>New User Sign Up</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Register" class="btn btn-primary text-white">
+    <div class="container mt-2 w-75">
+        <center><h1>Sign Up</h1></center>
+        <form method="post">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                  {{ form.first_name|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.last_name|as_crispy_field }}
+                </div>
+                <div class="col col-lg-2">
+                    {{ form.age|as_crispy_field }}
+                </div>
+              </div>
+              <div class="row">
+              <div class="col">
+                {{ form.username|as_crispy_field }}
+              </div>
+              <div class="col">
+                  {{ form.email|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                  {{ form.password1|as_crispy_field }}
+                </div>
+                <div class="col">
+                    {{ form.password2|as_crispy_field }}
+                </div>
+              </div>
+              <center><input type="submit" value="Register" class="btn btn-success text-center"></center>
+          </form>
+    </div>
 
-    </form>
-        </div>
-    </div>
-    </div>
-</div>
 {% endblock body %}
