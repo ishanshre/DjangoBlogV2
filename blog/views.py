@@ -17,6 +17,7 @@ from django.db.models import Q
 from .models import Post
 from django.urls import reverse_lazy, reverse
 from .forms import CommentForm
+from .forms import Comment
 
 # Create your views here.
 
@@ -151,3 +152,48 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
     def test_func(self):
         self.object = self.get_object()
         return self.object.author == self.request.user
+
+
+class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Comment
+    fields = ['comment']
+    template_name = 'blog/comment_update.html'
+    message = "Comment Edited"
+
+    #alternative method to update comment using method overiding
+    # def get_object(self):
+    #     return Comment.objects.get(id=self.kwargs['comment_id'])
+
+    def get_success_message(self, cleaned_data):
+        print(cleaned_data)
+        return self.message
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CommentUpdateView,self).form_valid(form)
+    
+    def test_func(self):
+        self.object = self.get_object()
+        return self.object == self.request.user
+
+class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMixin, UpdateView):
+    model = Comment
+    fields = ['comment']
+    template_name = 'blog/comment_update.html'
+    message = "Comment Edited"
+    #alternative method to update comment using method overiding
+    # def get_object(self):
+    #     return Comment.objects.get(id=self.kwargs['comment_id'])
+
+    def get_success_message(self, cleaned_data):
+        print(cleaned_data)
+        return self.message
+    
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super(CommentUpdateView,self).form_valid(form)
+    
+    def test_func(self):
+        self.object = self.get_object()
+        return self.object.author == self.request.user
+

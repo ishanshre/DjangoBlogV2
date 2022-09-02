@@ -11,7 +11,7 @@
         <p class="text-muted">By {{ posts.author }}</p>
         <p class="text-muted">Last Updated: {{ posts.updated }}</p>
         <hr><br>
-        <p>{{ posts.body }}</p>
+        <p>{{ posts.body|linebreaksbr }}</p>
     </article>
 
     {% if user.is_authenticated %}
@@ -29,6 +29,12 @@
         {% for comment in posts.comment_set.all %}
         <p> {{ comment }}</p>
         <p class="text-muted">by {{ comment.author|title }}</p>
+        {% if user.is_authenticated %}
+        {% if comment.author == user %}
+        <a href="{% url 'blog:comment_update' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Update</a>
+        {% endif %}
+        {% endif %}
+
         <hr>
         {% endfor %}
     </div>

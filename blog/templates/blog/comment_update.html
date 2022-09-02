@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}{{ posts.title|title }}{% endblock title %}
+
+
+{% block body %}
+
+    <div class="container w-75">
+        <h3>Update Comments</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="submit" value="Update Comments" class="btn btn-outline-success">
+        </form>
+    </div>
+{% endblock body %}
