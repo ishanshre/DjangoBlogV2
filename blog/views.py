@@ -32,6 +32,23 @@ class IndexListView(ListView):
         return self.model.published.all()
 
 
+class TagPostListView(ListView):
+    model = Post
+    paginate_by = 8
+    context_object_name = 'post_list'
+    template_name = 'blog/tag_post_list_view.html'
+
+    def get_context_data(self):
+        context = super().get_context_data()
+        context['tags_slugs'] = self.kwargs['tag_slug']
+        return context
+
+    def get_queryset(self):
+        return self.model.published.filter(tags__slug=self.kwargs['tag_slug'])
+
+
+
+
 class GetComment(DetailView):
     model = Post
     context_object_name = 'posts'

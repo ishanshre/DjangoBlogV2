@@ -1,10 +1,21 @@
 from django.urls import path
-from .views import IndexListView, PostDetailView, SearchBlogView, PostCreateView, PostUpdateView, PostDeleteView, CommentUpdateView, CommentDeleteView
+from .views import (
+    IndexListView,
+    PostDetailView, 
+    SearchBlogView, 
+    PostCreateView, 
+    PostUpdateView, 
+    PostDeleteView, 
+    CommentUpdateView, 
+    CommentDeleteView,
+    TagPostListView,
+)
 
 
 app_name = 'blog'
 urlpatterns = [
     path('', IndexListView.as_view(), name = 'index'),
+    path('tags/<slug:tag_slug>/', TagPostListView.as_view(), name = 'tag_post_list_view'),
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/', PostDetailView.as_view(), name='post_detail'),
     path('search/', SearchBlogView.as_view(), name='post_search'),
     path('post_create/', PostCreateView.as_view(), name='post_create'),

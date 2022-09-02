@@ -10,7 +10,7 @@
         <h1>{{ posts.title|title }}</h1>
         <p class="text-muted">By {{ posts.author }}</p>
         <p class="text-muted">Last Updated: {{ posts.updated }}</p>
-        <p class="text-muted">Tags: {{ posts.tags.all|join:", "}}</p>
+        <p class="text-muted">Tags: {% for tag in posts.tags.all %} <a href="{% url 'blog:tag_post_list_view' tag.slug %}">{{ tag }}</a> &emsp13; {% endfor %} </p>
         <hr><br>
         <p>{{ posts.body|linebreaks }}</p>
     </article>
