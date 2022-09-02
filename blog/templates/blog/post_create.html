@@ -19,12 +19,13 @@
                   <div class="col">
                     {{ form.slug|as_crispy_field }}
                   </div>
+                  {{ form.body|as_crispy_field }}
                   <div class="container">
                     <div class="row">
                       <div class="col-8">
-                        {{ form.body|as_crispy_field }}
+                        {{ form.tags|as_crispy_field }}
                       </div>
-                      <div class="col-3">
+                      <div class="col-4">
                         {{ form.status|as_crispy_field }}
                       </div>
                     </div>

@@ -5,12 +5,32 @@
 
 {% block body %}
 
-<main class="form-signin w-75 m-auto text-center p-5">
+<main class="form-signin w-90 m-auto text-center p-5">
     <div class="container mt-2">
         <h1>Update Post</h1>
         <form method="post" style="display: block;">
             {% csrf_token %}
-            {{ form|crispy }}
+            <div class="container">
+                <div class="row">
+                  <div class="col">
+                    {{ form.title|as_crispy_field }}
+                  </div>
+                  <div class="col">
+                    {{ form.slug|as_crispy_field }}
+                  </div>
+                  {{ form.body|as_crispy_field }}
+                  <div class="container">
+                    <div class="row">
+                      <div class="col-8">
+                        {{ form.tags|as_crispy_field }}
+                      </div>
+                      <div class="col-4">
+                        {{ form.status|as_crispy_field }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             <input type="submit" value="Update" class="btn btn-primary text-white">
         </form><br>
             <center><a href="{{ objects.get_absolute_url }}" type="button" role="button" class="btn btn-success text-white">Go Back</a></center>

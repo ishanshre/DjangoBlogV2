@@ -24,7 +24,7 @@ from .forms import Comment
 
 class IndexListView(ListView):
     model = Post
-    paginate_by = 10
+    paginate_by = 8
     context_object_name = 'post_list'
     template_name = 'blog/index.html'
 
@@ -76,7 +76,6 @@ class PostComment(SingleObjectMixin, LoginRequiredMixin, FormView):
         })
 
 
-
 class PostDetailView(View):
     def get(self, request, *args, **kwargs):
         view = GetComment.as_view()
@@ -102,7 +101,7 @@ class SearchBlogView(ListView):
 
 class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Post
-    fields = ['title','slug','body','status']
+    fields = ['title','slug','body','status','tags']
     template_name = 'blog/post_create.html'
     message = "Post Created Successfully"
     success_url = reverse_lazy('blog:index')
@@ -118,7 +117,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Post
-    fields = ['title','slug','body','status']
+    fields = ['title','slug','body','status','tags']
     template_name = 'blog/post_update.html'
     message = "Update Successful"
 
@@ -175,6 +174,7 @@ class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMi
     def test_func(self):
         self.object = self.get_object()
         return self.object == self.request.user
+
 
 class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Comment

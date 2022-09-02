@@ -10,8 +10,9 @@
         <h1>{{ posts.title|title }}</h1>
         <p class="text-muted">By {{ posts.author }}</p>
         <p class="text-muted">Last Updated: {{ posts.updated }}</p>
+        <p class="text-muted">Tags: {{ posts.tags.all|join:", "}}</p>
         <hr><br>
-        <p>{{ posts.body|linebreaksbr }}</p>
+        <p>{{ posts.body|linebreaks }}</p>
     </article>
 
     {% if user.is_authenticated %}
@@ -29,7 +30,7 @@
         {% for comment in posts.comments.all %}
         <p class="text-muted">by {{ comment.author|title }}</p>
         <p class="text-muted">by {{ comment.created }}</p>
-        <p> {{ comment.comment }}</p>
+        <p> {{ comment.comment|linebreaksbr }}</p>
 
         {% if user.is_authenticated %}
         {% if comment.author == user %}
