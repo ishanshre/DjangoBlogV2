@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Delete Comment{% endblock title %}
+
+
+{% block body %}
+
+    <div class="container w-75">
+        <h3>Delete Comments</h3>
+        <form action="" method="post">
+        {% csrf_token %}
+       
+        <input type="submit" value="Delete Comment" class="btn btn-outline-success">
+        </form>
+    </div>
+{% endblock body %}

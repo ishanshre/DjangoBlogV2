@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import IndexListView, PostDetailView, SearchBlogView, PostCreateView, PostUpdateView, PostDeleteView, CommentUpdateView
+from .views import IndexListView, PostDetailView, SearchBlogView, PostCreateView, PostUpdateView, PostDeleteView, CommentUpdateView, CommentDeleteView
 
 
 app_name = 'blog'
@@ -11,6 +11,8 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/update/', PostUpdateView.as_view(), name='post_update'),
     path('<int:year>/<int:month>/<int:day>/<slug:slug>/delete/', PostDeleteView.as_view(), name='post_delete'),
     #path('comment_update/<int:comment_id>/', CommentUpdateView.as_view(), name='comment_update'),#Url for overding get_oject method
-    path('comment_update/<pk>/', CommentUpdateView.as_view(), name='comment_update'),
+    #path('comment_update/<pk>/', CommentUpdateView.as_view(), name='comment_update'),
+    path('comment_update/<int:comment_id>/', CommentUpdateView.as_view(), name='comment_update'),
+    path('comment_delete/<int:comment_id>/', CommentDeleteView.as_view(), name='comment_delete'),
 
 ]

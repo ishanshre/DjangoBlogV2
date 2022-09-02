@@ -181,9 +181,14 @@ class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMi
     fields = ['comment']
     template_name = 'blog/comment_update.html'
     message = "Comment Edited"
+    
     #alternative method to update comment using method overiding
-    # def get_object(self):
-    #     return Comment.objects.get(id=self.kwargs['comment_id'])
+    def get_object(self):
+        return Comment.objects.get(id=self.kwargs['comment_id'])
+
+    def get_queryset(self):
+        return Post.published.filter(id=self.kwargs['comment_id'])
+
 
     def get_success_message(self, cleaned_data):
         print(cleaned_data)
@@ -197,3 +202,31 @@ class CommentUpdateView(LoginRequiredMixin,UserPassesTestMixin, SuccessMessageMi
         self.object = self.get_object()
         return self.object.author == self.request.user
 
+    def get_success_url(self):
+        self.object = self.get_object()
+        return reverse_lazy('blog:post_detail', args=[self.object.post.publish.year, self.object.post.publish.month,self.object.post.publish.day, self.object.post.slug])
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, DeleteView):
+    model = Comment
+    template_name = 'blog/comment_delete.html'
+    message = 'Comment Deleted'
+
+    def get_object(self):
+        return Comment.objects.get(id=self.kwargs['comment_id'])
+    
+    def get_success_message(self, cleaned_data):
+        print(cleaned_data)
+        return self.message
+    
+    def form_vald(self,form):
+        form.instance.author = self.request.user
+        return super(CommentDeleteView, self).form_valid(form)
+    
+    def test_func(self):
+        self.object = self.get_object()
+        return self.object.author == self.request.user
+    
+    def get_success_url(self):
+        self.object = self.get_object()
+        return reverse_lazy('blog:post_detail', args=[self.object.post.publish.year, self.object.post.publish.month,self.object.post.publish.day, self.object.post.slug])

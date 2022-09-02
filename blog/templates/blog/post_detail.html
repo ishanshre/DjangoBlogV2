@@ -23,15 +23,18 @@
     {% endif %}
     {% endif %}
 
-    {% if posts.comment_set.all %}
+    {% if posts.comments.all %}
     <div class="container">
         <h3>Comments</h3>
-        {% for comment in posts.comment_set.all %}
-        <p> {{ comment }}</p>
+        {% for comment in posts.comments.all %}
         <p class="text-muted">by {{ comment.author|title }}</p>
+        <p class="text-muted">by {{ comment.created }}</p>
+        <p> {{ comment.comment }}</p>
+
         {% if user.is_authenticated %}
         {% if comment.author == user %}
         <a href="{% url 'blog:comment_update' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Update</a>
+        <a href="{% url 'blog:comment_delete' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Delete</a>
         {% endif %}
         {% endif %}
 
