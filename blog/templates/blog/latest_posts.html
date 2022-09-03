@@ -1,0 +1,21 @@
+{% for post in latest_posts %}
+                <div class="col">
+                    <div class="card shadow-sm border-success" style="background-color: #000000;">
+                        <div class="card-header border-success">
+                                <h4><a class="text-white text-decoration-none" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                
+                                <p class="text-muted">By {{ post.author|title }} &middot; {{ post.created }} </p>
+                                <p>{{ post.body|truncatewords:10|safe }}</p>
+                            </p>
+                            <div class="d-flex justigy-content-between align-items-center">
+                                <small class="text-muted">9 min read</small>
+                            </div>
+                        </div>
+                    </div>
+            
+                </div>
+                <br>
+        {% endfor %}

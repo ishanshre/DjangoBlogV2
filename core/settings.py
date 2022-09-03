@@ -42,6 +42,9 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'whitenoise.runserver_nostatic',
     'taggit',
+    'ckeditor',
+    'ckeditor_uploader',
+
 
     #local apps
     'blog.apps.BlogConfig',
@@ -153,3 +156,5 @@ LOGOUT_REDIRECT_URL = 'accounts:login'
 LOGIN_URL = 'accounts:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"

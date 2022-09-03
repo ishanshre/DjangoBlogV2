@@ -14,17 +14,16 @@ from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from .models import Post
+from .models import Post, Comment
 from django.urls import reverse_lazy, reverse
-from .forms import CommentForm
-from .forms import Comment
+from .forms import CommentForm, PostForm
 
 # Create your views here.
 
 
 class IndexListView(ListView):
     model = Post
-    paginate_by = 8
+    paginate_by = 6
     context_object_name = 'post_list'
     template_name = 'blog/index.html'
 
@@ -134,7 +133,7 @@ class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixin, UpdateView):
     model = Post
-    fields = ['title','slug','body','status','tags']
+    form_class = PostForm
     template_name = 'blog/post_update.html'
     message = "Update Successful"
 

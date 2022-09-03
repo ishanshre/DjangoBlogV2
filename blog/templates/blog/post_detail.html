@@ -1,55 +1,90 @@
 {% extends 'blog/base.html' %}
 {% load crispy_forms_tags %}
+{% load blog_tags %}
 {% block title %}{{ posts.title|title }}{% endblock title %}
 
 
 {% block body %}
 
-<div class="container mt-2">
-    <article>
-        <h1>{{ posts.title|title }}</h1>
-        <p class="text-muted">By {{ posts.author }}</p>
-        <p class="text-muted">Last Updated: {{ posts.updated }}</p>
-        <p class="text-muted">Tags: {% for tag in posts.tags.all %} <a href="{% url 'blog:tag_post_list_view' tag.slug %}">{{ tag }}</a> &emsp13; {% endfor %} </p>
-        <hr><br>
-        <p>{{ posts.body|linebreaks }}</p>
-    </article>
-
-    {% if user.is_authenticated %}
-    {% if posts.author == user %}
-        <center>
-            <a href="{% url 'blog:post_update' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Update</a>
-    <a href="{% url 'blog:post_delete' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Delete</a>
-        </center>
-    {% endif %}
-    {% endif %}
-
-    {% if posts.comments.all %}
-    <div class="container">
-        <h3>Comments</h3>
-        {% for comment in posts.comments.all %}
-        <p class="text-muted">by {{ comment.author|title }}</p>
-        <p class="text-muted">by {{ comment.created }}</p>
-        <p> {{ comment.comment|linebreaksbr }}</p>
-
+<div class="row g-5">
+    <div class="container col-md-8">
+        <article>
+            <h1>{{ posts.title|title }}</h1>
+            <p class="text-muted">By {{ posts.author }}</p>
+            <p class="text-muted">Last Updated: {{ posts.updated }}</p>
+            <p class="text-muted">Tags: {% for tag in posts.tags.all %} <a href="{% url 'blog:tag_post_list_view' tag.slug %}">{{ tag }}</a> &emsp13; {% endfor %} </p>
+            <hr><br>
+            <p>{{ posts.body|safe }}</p>
+        </article>
+    
         {% if user.is_authenticated %}
-        {% if comment.author == user %}
-        <a href="{% url 'blog:comment_update' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Update</a>
-        <a href="{% url 'blog:comment_delete' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Delete</a>
+        {% if posts.author == user %}
+            <center>
+                <a href="{% url 'blog:post_update' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Update</a>
+        <a href="{% url 'blog:post_delete' posts.publish.year posts.publish.month posts.publish.day posts.slug%}" type="button" role="button" class="btn btn-outline-danger">Delete</a>
+            </center>
         {% endif %}
         {% endif %}
-
-        <hr>
-        {% endfor %}
+    
+        {% if posts.comments.all %}
+        <div class="container">
+            <h3>Comments</h3>
+            {% for comment in posts.comments.all %}
+            <p class="text-muted">by {{ comment.author|title }}</p>
+            <p class="text-muted">by {{ comment.created }}</p>
+            <p> {{ comment.comment|linebreaksbr }}</p>
+    
+            {% if user.is_authenticated %}
+            {% if comment.author == user %}
+            <a href="{% url 'blog:comment_update' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Update</a>
+            <a href="{% url 'blog:comment_delete' comment.id %}" class="btn  btn-outline-danger text-white" role="button" type="button">Delete</a>
+            {% endif %}
+            {% endif %}
+    
+            <hr>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <div class="container w-75">
+            <h3>Add Comments</h3>
+            <form action="" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <input type="submit" value="Add Comments" class="btn btn-outline-success">
+            </form>
+        </div>
     </div>
-    {% endif %}
-    <div class="container w-75">
-        <h3>Add Comments</h3>
-        <form action="" method="post">
-        {% csrf_token %}
-        {{ form|crispy }}
-        <input type="submit" value="Add Comments" class="btn btn-outline-success">
-        </form>
+    <div class="container col-md-4">
+        <div class="row row-cols-1 row-cols-sm-3 row-cols-md-4 g-3"></div>
+        <br>
+        <h3>Latest Post</h3>
+        {% show_latest_posts 3 %}
+        <hr>
+        <h3>Most Commented Post</h3>
+        {% get_most_commented_posts as most_commented_posts %}
+        {% for post in most_commented_posts %}
+        <div class="col">
+            <div class="card shadow-sm border-success" style="background-color: #000000;">
+                <div class="card-header border-success">
+                        <h4><a class="text-white text-decoration-none" href="{{ post.get_absolute_url }}">{{ post.title }}</a></h4>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        
+                        <p class="text-muted">By {{ post.author|title }} &middot; {{ post.created }} </p>
+                        <p>{{ post.body|truncatewords:20|safe }}</p>
+                    </p>
+                    <div class="d-flex justigy-content-between align-items-center">
+                        <small class="text-muted">9 min read</small>
+                    </div>
+                </div>
+            </div>
+    
+        </div>
+        <br>
+        {% endfor %}
+        </div>
     </div>
 </div>
+
 {% endblock body %}
