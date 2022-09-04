@@ -47,10 +47,11 @@ To setup and run project locally on your machine then follow these simple steps
     ```docker-compose exec web python manage.py createsuperuser```
  9. Now you are good to go
     ```127.0.0.1:8000```
-    
+
 # Sample Images
 ![Sample 1](sample1.png)
 ![Sample 2](sample2.png)
 ![Sample 3](sample3.png)
 ![Sample 4](sample4.png)
 ![Sample 5](sample5.png)
+![Sample 6](sample6.png)
