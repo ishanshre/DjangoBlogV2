@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from taggit.managers import TaggableManager
+
 # Create your models here.
 
 
@@ -61,3 +62,14 @@ class Comment(models.Model):
         ]
     def __str__(self):
         return f"Comment by {self.author} on {self.post}" 
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(get_user_model(), related_name='profile', on_delete=models.CASCADE)
+    bio = models.TextField()
+    avatar = models.ImageField(upload_to='profile_avatar/')
+    phone = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.user.username
+    

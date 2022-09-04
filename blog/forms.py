@@ -2,6 +2,7 @@ from .models import Comment, Post
 from django import forms
 from ckeditor.widgets import CKEditorWidget
 
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
@@ -18,3 +19,6 @@ class PostForm(forms.ModelForm):
         widgets = {
             'body':CKEditorWidget(),
         }
+
+
+

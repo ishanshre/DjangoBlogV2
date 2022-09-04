@@ -14,7 +14,7 @@ from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
-from .models import Post, Comment
+from .models import Post, Comment, Profile
 from django.urls import reverse_lazy, reverse
 from .forms import CommentForm, PostForm
 
@@ -44,8 +44,6 @@ class TagPostListView(ListView):
 
     def get_queryset(self):
         return self.model.published.filter(tags__slug=self.kwargs['tag_slug'])
-
-
 
 
 class GetComment(DetailView):
@@ -246,3 +244,12 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageM
     def get_success_url(self):
         self.object = self.get_object()
         return reverse_lazy('blog:post_detail', args=[self.object.post.publish.year, self.object.post.publish.month,self.object.post.publish.day, self.object.post.slug])
+
+
+class ProfileView(LoginRequiredMixin, DetailView):
+    model = Profile
+    context_object_name = 'profiles'
+    template_name = 'blog/profile.html'
+
+    def get_object(self):
+        return Profile.objects.get(user=self.request.user)

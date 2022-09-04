@@ -25,7 +25,7 @@
                             <p class="card-text">
                                 
                                 <p class="text-muted">By {{ post.author|title }} &middot; {{ post.created }} </p>
-                                <p>{{ post.body|truncatewords:20 }}</p>
+                                <p>{{ post.body|truncatewords:10|safe }}</p>
                             </p>
                             <div class="d-flex justigy-content-between align-items-center">
                                 <small class="text-muted">9 min read</small>
