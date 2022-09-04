@@ -115,7 +115,7 @@ class SearchBlogView(ListView):
 
 class PostCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Post
-    fields = ['title','slug','body','status','tags']
+    form_class = PostForm
     template_name = 'blog/post_create.html'
     message = "Post Created Successfully"
     success_url = reverse_lazy('blog:index')
