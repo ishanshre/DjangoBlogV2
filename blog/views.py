@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
+from django.contrib import messages
 from django.views.generic import (
     ListView,
     DetailView,
@@ -16,7 +17,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.db.models import Q
 from .models import Post, Comment, Profile
 from django.urls import reverse_lazy, reverse
-from .forms import CommentForm, PostForm
+from .forms import CommentForm, PostForm, ProfileForm
+from accounts.forms import CustomUserChangeForm
 
 # Create your views here.
 
@@ -253,3 +255,25 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_object(self):
         return Profile.objects.get(user=self.request.user)
+
+class ProfileUpdate(LoginRequiredMixin, View):
+    template_name = 'blog/profile_update.html'
+    def get(self, request, *args, **kwargs):
+        user_form = CustomUserChangeForm(instance = request.user)
+        profile_form = ProfileForm(instance = request.user.profile)
+        context = {'user_form':user_form, 'profile_form':profile_form}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        user_form = CustomUserChangeForm(request.POST, instance= request.user)
+        profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'Profile Updated')
+            return redirect('blog:user_profile')
+        else:
+            user_form = CustomUserChangeForm(instance=request.user)
+            profile_form = ProfileFrom(instance=request.user.profile)
+        return redner(request, self.template_name, context={'user_form':user_form, 'profile_form':profile_form})
+    

@@ -66,9 +66,9 @@ class Comment(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), related_name='profile', on_delete=models.CASCADE)
-    bio = models.TextField()
-    avatar = models.ImageField(upload_to='profile_avatar/')
-    phone = models.PositiveIntegerField()
+    bio = models.TextField(blank=True, null=True)
+    avatar = models.ImageField(upload_to='profile_avatar/', blank=True, null=True)
+    phone = models.PositiveIntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.user.username

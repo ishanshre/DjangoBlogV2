@@ -1,4 +1,4 @@
-from .models import Comment, Post
+from .models import Comment, Post, Profile
 from django import forms
 from ckeditor.widgets import CKEditorWidget
 
@@ -21,4 +21,7 @@ class PostForm(forms.ModelForm):
         }
 
 
-
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ('bio','avatar','phone')
