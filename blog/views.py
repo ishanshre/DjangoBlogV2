@@ -19,7 +19,7 @@ from .models import Post, Comment, Profile
 from django.urls import reverse_lazy, reverse
 from .forms import CommentForm, PostForm, ProfileForm
 from accounts.forms import CustomUserChangeForm
-
+from django.contrib.auth import get_user_model
 # Create your views here.
 
 
@@ -277,3 +277,21 @@ class ProfileUpdate(LoginRequiredMixin, View):
             profile_form = ProfileFrom(instance=request.user.profile)
         return redner(request, self.template_name, context={'user_form':user_form, 'profile_form':profile_form})
     
+
+class GlobalProfileList(ListView):
+    model = get_user_model()
+    context_object_name='profiles'
+    template_name = 'blog/global_user_list.html'
+
+    def get_queryset(self):
+        return self.model.objects.filter(is_active=True)
+
+
+class GlobalProfileDetail(DetailView):
+    model = get_user_model()
+    context_object_name = 'profiles'
+    template_name='blog/global_user_detail.html'
+
+    def get_object(self):
+        user = get_object_or_404(get_user_model(), username=self.kwargs['username'], is_active=True)
+        return user

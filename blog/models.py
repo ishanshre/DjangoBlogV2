@@ -64,12 +64,29 @@ class Comment(models.Model):
         return f"Comment by {self.author} on {self.post}" 
 
 
+class Follower(models.Model):
+    user_from = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='relation_from')
+    user_to = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='relation_to')
+    created = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        indexes = [models.Index(fields=['-created']),]
+        ordering = ['-created']
+
+    def __str__(self):
+        return f"{self.user_from} follows {self.user_to}"
+
+
 class Profile(models.Model):
     user = models.OneToOneField(get_user_model(), related_name='profile', on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
-    avatar = models.ImageField(upload_to='profile_avatar/', blank=True, null=True)
+    avatar = models.ImageField(upload_to='profile_avatar/', blank=True, null=True, default='profile_avatar/default.png')
     phone = models.PositiveIntegerField(blank=True, null=True)
-
+    following = models.ManyToManyField('self', through=Follower, related_name='followers', symmetrical=False)
     def __str__(self):
         return self.user.username
     
+
+
+
+

@@ -1,0 +1,28 @@
+{% extends 'blog/base.html' %}
+{% block title %}Home{% endblock title %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="text-center">
+        <h1>List of Peoples</h1>
+    </div>
+    <div class="container">
+        <div class="card-body">
+            <ul>
+                {% for profile in profiles %}
+                {% if user != profile %}
+                <li><a href="{% url 'blog:global_user_detail' profile.username %}">{{ profile }}</a></li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <center>
+        <div>
+            {% include 'blog/pagination.html' %}
+        </div>
+    </center>
+</div>
+{% endblock body %}

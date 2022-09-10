@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% load blog_tags %}
+{% load static %}
+{% block title %}{{ profiles.first_name }} {{ profiles.last_name }}{% endblock title %}
+
+
+{% block body %}
+
+<div class="container rounded bg-white mt-5 mb-5 w-75">
+    <div class="row">
+        <div class="col-md-5 border-right">
+            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="{{ profiles.profile.avatar.url }}"><span class="font-weight-bold text-black-50">{{ profiles.user.first_name }} {{ profiles.user.last_name }}</span><span class="text-black-50">{{ profiles.user.email }}</span><span> </span></div>
+        </div>
+        <div class="col-md-5 border-right">
+            <div class="p-3 py-5">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-right">Profile Settings</h4>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12"><p class="text-black-50"><strong>Name:&emsp13;</strong>{{ profiles.first_name }} {{ profiles.last_name }}</p></div>
+                    <div class="col-md-12"><p class="text-black-50"><strong>Age:&emsp13;</strong>{{ profiles.age }}</p></div>
+                    <div class="col=md-12"><p class="text-black-50"><strong>Username:&emsp13;</strong>{{ profiles.username }}</p></div>
+                    <div class="col=md-12"><p class="text-black-50"><strong>Email:&emsp13;</strong>{{ profiles.email }}</p></div>
+                    <div class="col=md-12"><p class="text-black-50"><strong>Contact Number:&emsp13;</strong>{{ profiles.profile.phone }}</p></div>
+                    <div class="col=md-12"><p class="text-black-50"><strong>Date Joined:&emsp13;</strong>{{ profiles.date_joined }}</p></div>
+                    <div class="col=md-12"><p class="text-black-50"><strong>Bio:&emsp13;</strong>{{ profiles.profile.bio }}</p></div>
+                </div>
+                <div class="row mt-3">
+                   
+                </div>
+
+            </div>
+        </div>
+        
+    </div>
+</div>
+</div>
+</div>
+
+{% endblock body %}

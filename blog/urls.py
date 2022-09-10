@@ -11,6 +11,8 @@ from .views import (
     TagPostListView,
     ProfileView,
     ProfileUpdate,
+    GlobalProfileList,
+    GlobalProfileDetail,
 )
 
 
@@ -29,4 +31,6 @@ urlpatterns = [
     path('comment_delete/<int:comment_id>/', CommentDeleteView.as_view(), name='comment_delete'),
     path('profile/', ProfileView.as_view(), name='user_profile'),
     path('profile/update/', ProfileUpdate.as_view(), name='user_profile_update'),
+    path('user/', GlobalProfileList.as_view(), name='global_user_list'),
+    path('user/<username>/', GlobalProfileDetail.as_view(), name='global_user_detail'),
 ]
