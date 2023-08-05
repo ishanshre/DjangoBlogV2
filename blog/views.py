@@ -160,9 +160,6 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, SuccessMessageMixi
         print(cleaned_data)
         return self.message
     
-    def form_valid(self, form, *args, **kwargs):
-        form.instance.author = self.request.user
-        return super(PostDeleteView, self).form_valid(form,*args, **kwargs)
     
     def test_func(self):
         self.object = self.get_object()
@@ -274,8 +271,8 @@ class ProfileUpdate(LoginRequiredMixin, View):
             return redirect('blog:user_profile')
         else:
             user_form = CustomUserChangeForm(instance=request.user)
-            profile_form = ProfileFrom(instance=request.user.profile)
-        return redner(request, self.template_name, context={'user_form':user_form, 'profile_form':profile_form})
+            profile_form = ProfileForm(instance=request.user.profile)
+        return render(request, self.template_name, context={'user_form':user_form, 'profile_form':profile_form})
     
 
 class GlobalProfileList(ListView):
